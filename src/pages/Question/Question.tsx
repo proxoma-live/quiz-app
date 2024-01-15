@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Field } from "formik";
 import styles from "./Question.module.scss";
 import * as Types from "modules/quiz/types";
 
@@ -63,7 +62,6 @@ const Question: React.FC<IProps> = ({
       </span>
       <span className={styles.totalQuestion}>/{questions.length}</span>
       <h2 className={styles["heading-2"]}>{question}</h2>
-      <Field type="checkbox" className={styles.listItem} />
       <ul className={styles.listWrapper}>
         {choices.map((choice, index) => (
           <li
