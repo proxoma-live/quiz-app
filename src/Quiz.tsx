@@ -1,6 +1,4 @@
-import { useState } from "react";
 import * as Types from "./modules/quiz/types";
-import { quizInitialState } from "./data";
 import Result from "pages/Result";
 import Question from "pages/Question";
 import { QuizForm } from "modules/quiz/forms";

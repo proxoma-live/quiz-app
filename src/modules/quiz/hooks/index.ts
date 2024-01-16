@@ -1,1 +1,1 @@
-export { default as useList } from "./useQuestionsList";
+export { default as useQuestionsList } from "./useQuestionsList";

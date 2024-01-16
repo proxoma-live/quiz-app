@@ -2,7 +2,7 @@ export interface IQuestion {
   question: string;
   choices: string[];
   type: string;
-  correctAnswer: string;
+  correctAnswer: string[];
 }
 
 export interface IResult {

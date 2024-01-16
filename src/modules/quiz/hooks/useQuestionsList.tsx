@@ -9,7 +9,7 @@ const useList = () => {
         "None of the mentioned",
       ],
       type: "Multiple Choice",
-      correctAnswer: "Virtual DOM",
+      correctAnswer: ["Virtual DOM"],
     },
     {
       question: "Define ReactJS.",
@@ -20,19 +20,19 @@ const useList = () => {
         "None of the mentioned",
       ],
       type: "Multiple Choice",
-      correctAnswer: "User Interface framework",
+      correctAnswer: ["User Interface framework"],
     },
     {
       question: "Which is utilized to provide external data to components?",
       choices: ["Render with arguments", "setState", "PropTypes", "props"],
       type: "Multiple Choice",
-      correctAnswer: "props",
+      correctAnswer: ["props"],
     },
     {
       question: "What programming language is React.js developed in?",
       choices: ["Python", "Java", "C#", "JavaScript"],
       type: "Multiple Choice",
-      correctAnswer: "JavaScript",
+      correctAnswer: ["JavaScript"],
     },
     {
       question: "What does Babel signify?",
@@ -43,7 +43,7 @@ const useList = () => {
         "None of the mentioned",
       ],
       type: "Multiple Choice",
-      correctAnswer: "JavaScript compiler",
+      correctAnswer: ["JavaScript compiler"],
     },
   ];
 };

@@ -1,8 +1,9 @@
 import Quiz from "./Quiz";
-import { tsQuiz } from "./data";
+import * as Hooks from "modules/quiz/hooks";
 
 function App() {
-  return <Quiz questions={tsQuiz.questions} />;
+  const questions = Hooks.useQuestionsList();
+  return <Quiz questions={questions} />;
 }
 
 export default App;
