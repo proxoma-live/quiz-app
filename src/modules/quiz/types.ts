@@ -13,8 +13,12 @@ export interface IResult {
 
 export declare namespace IForm {
   export interface IValues {
+    answer: boolean;
+    currentQuestionIndex: number;
+    answerId: number | null;
     score: number;
-    totalScore: number;
+    totalCorrect: number;
     totalIncorrect: number;
+    showResult: boolean;
   }
 }
