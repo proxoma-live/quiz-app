@@ -1,64 +1,52 @@
-import { useState } from "react";
+import { useFormikContext } from "formik";
 import styles from "./Question.module.scss";
 import * as Types from "modules/quiz/types";
 
 interface IProps {
   questions: Types.IQuestion[];
-  result: Types.IResult;
-  setResult: (value: React.SetStateAction<Types.IResult>) => void;
-  setShowResult: (value: React.SetStateAction<boolean>) => void;
 }
 
-const Question: React.FC<IProps> = ({
-  questions,
-  setResult,
-  setShowResult,
-}) => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answerId, setAnswerId] = useState<number | null>(null);
-  const [answer, setAnswer] = useState<boolean>(false);
+const Question: React.FC<IProps> = ({ questions }) => {
+  const formik = useFormikContext<Types.IForm.IValues>();
 
-  const { question, choices, correctAnswer } = questions[currentQuestionIndex];
+  const { question, choices, correctAnswer } =
+    questions[formik.values.currentQuestionIndex];
 
   const onAnswerClick = (answer: string, index: number) => {
-    setAnswerId(index);
+    formik.setFieldValue("answerId", index);
+
     if (answer === correctAnswer) {
-      setAnswer(true);
-      console.log(answerId);
+      formik.setFieldValue("answer", true);
     } else {
-      setAnswer(false);
-      console.log(answerId);
+      formik.setFieldValue("answer", false);
     }
   };
 
   const onClickNext = () => {
-    setAnswerId(null);
-    setResult((prev) =>
-      answer
-        ? {
-            ...prev,
-            score: prev.score + 5,
-            correctAnswers: prev.totalCorrect + 1,
-          }
-        : {
-            ...prev,
-            wrongAnswers: prev.totalIncorrect + 1,
-          }
-    );
+    formik.setFieldValue("answerId", null);
 
-    if (currentQuestionIndex !== questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
+    if (formik.values.answer) {
+      formik.setFieldValue("score", formik.values.score + 5);
+      formik.setFieldValue("totalCorrect", formik.values.totalCorrect + 1);
     } else {
-      setCurrentQuestionIndex(0);
-      setShowResult(true);
+      formik.setFieldValue("totalIncorrect", formik.values.totalIncorrect + 1);
     }
+
+    const nextQuestionIndex =
+      formik.values.currentQuestionIndex !== questions.length - 1
+        ? formik.values.currentQuestionIndex + 1
+        : -1;
+
+    formik.setFieldValue("currentQuestionIndex", nextQuestionIndex);
+
+    const showResult = nextQuestionIndex === -1;
+    formik.setFieldValue("showResult", showResult);
   };
 
-  console.log(answerId);
   return (
     <>
       <span className={styles.activeQuestionNo}>
-        {currentQuestionIndex + 1}
+        {formik.values.currentQuestionIndex + 1}
       </span>
       <span className={styles.totalQuestion}>/{questions.length}</span>
       <h2 className={styles["heading-2"]}>{question}</h2>
@@ -68,7 +56,9 @@ const Question: React.FC<IProps> = ({
             onClick={() => onAnswerClick(choice, index)}
             key={choice}
             className={
-              answerId === index ? styles.listItemActive : styles.listItem
+              formik.values.answerId === index
+                ? styles.listItemActive
+                : styles.listItem
             }
           >
             {choice}
@@ -79,9 +69,12 @@ const Question: React.FC<IProps> = ({
         <button
           className={styles.button}
           onClick={onClickNext}
-          disabled={answerId === null}
+          type="button"
+          disabled={formik.values.answerId === null}
         >
-          {currentQuestionIndex === questions.length - 1 ? "Finish" : "Next"}
+          {formik.values.currentQuestionIndex === questions.length - 1
+            ? "Finish"
+            : "Next"}
         </button>
       </div>
     </>

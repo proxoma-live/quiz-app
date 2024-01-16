@@ -1,24 +1,21 @@
 import styles from "./Result.module.scss";
 import * as Types from "../../modules/quiz/types";
-import { quizInitialState } from "data";
+import { useFormikContext } from "formik";
 
 interface IProps {
   questions: Types.IQuestion[];
-  result: Types.IResult;
-  setResult: (value: React.SetStateAction<Types.IResult>) => void;
-  setShowResult: (value: React.SetStateAction<boolean>) => void;
 }
 
-const Result: React.FC<IProps> = ({
-  questions,
-  result,
-  setResult,
-  setShowResult,
-}) => {
+const Result: React.FC<IProps> = ({ questions }) => {
   const onTryAgain = () => {
-    setResult(quizInitialState);
-    setShowResult(false);
+    formik.setFieldValue("score", 0);
+    formik.setFieldValue("totalCorrect", 0);
+    formik.setFieldValue("totalIncorrect", 0);
+    formik.setFieldValue("currentQuestionIndex", 0);
+    formik.setFieldValue("showResult", false);
   };
+
+  const formik = useFormikContext<Types.IForm.IValues>();
 
   return (
     <div className={styles.result}>
@@ -27,15 +24,15 @@ const Result: React.FC<IProps> = ({
         Total Questions: <span>{questions.length}</span>
       </p>
       <p className={styles.paragraph}>
-        Total Score: <span>{result.score}</span>
+        Total Score: <span>{formik.values.score}</span>
       </p>
       <p className={styles.paragraph}>
-        Correct Answers: <span>{result.totalCorrect}</span>
+        Correct Answers: <span>{formik.values.totalCorrect}</span>
       </p>
       <p className={styles.paragraph}>
-        Wrong Answers: <span>{result.totalIncorrect}</span>
+        Wrong Answers: <span>{formik.values.totalIncorrect}</span>
       </p>
-      <button className={styles.button} onClick={onTryAgain}>
+      <button type="submit" className={styles.button} onClick={onTryAgain}>
         Try again
       </button>
     </div>

@@ -6,24 +6,18 @@ import Question from "pages/Question";
 import { QuizForm } from "modules/quiz/forms";
 
 const Quiz = ({ questions }: { questions: Types.IQuestion[] }) => {
-  const [result, setResult] = useState(quizInitialState);
-  const [showResult, setShowResult] = useState(false);
-
   return (
     <QuizForm>
-      {() => (
+      {({ values: { showResult } }) => (
         <div className="quiz-container">
           {!showResult ? (
             <Question
               {...{
-                result,
-                setResult,
-                setShowResult,
                 questions,
               }}
             />
           ) : (
-            <Result {...{ setResult, setShowResult, result, questions }} />
+            <Result {...{ questions }} />
           )}
         </div>
       )}
